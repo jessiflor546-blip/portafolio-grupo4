@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtud en Acción · Portafolio Grupo 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:      #F5EDDA;
+  --sand:       #E8D5B0;
+  --wheat:      #D4A96A;
+  --gold:       #C4903A;
+  --tan:        #B07D4E;
+  --sienna:     #8B5E3C;
+  --brown:      #6B3F28;
+  --dark:       #3D2010;
+  --terracotta: #C06040;
+  --muted:      #7A5A40;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--dark); overflow-x:hidden; }
+
+/* ══════════════════════════════
+   BARRA SUPERIOR FIJA
+══════════════════════════════ */
+#topbar {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height:60px;
+  background:rgba(245,237,218,0.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(196,144,58,0.25);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 2.5rem;
+}
+.tb-logo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem; font-weight:700; letter-spacing:0.09em;
+  color:var(--sienna); text-transform:uppercase; cursor:pointer;
+}
+.tb-nav { display:flex; gap:0.2rem; }
+.tb-nav button {
+  background:none; border:none; cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.72rem; font-weight:500; letter-spacing:0.06em;
+  text-transform:uppercase; color:var(--muted);
+  padding:0.35rem 0.85rem; border-radius:2rem;
+  transition:all 0.2s;
+}
+.tb-nav button:hover { background:rgba(196,144,58,0.15); color:var(--dark); }
+.tb-nav button.active { background:var(--wheat); color:var(--dark); }
+
+/* ══════════════════════════════
+   SISTEMA DE VISTAS (SPA)
+══════════════════════════════ */
+.view { display:none; min-height:100vh; padding-top:60px; }
+.view.active { display:block; }
+
+/* animación de entrada */
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.view.active { animation: fadeIn 0.45s ease forwards; }
+
+/* botón volver (aparece en todas las vistas menos inicio) */
+.btn-volver {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  background:var(--cream); border:1px solid rgba(196,144,58,0.35);
+  color:var(--sienna); font-size:0.75rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:0.5rem 1.2rem; border-radius:2rem;
+  cursor:pointer; transition:all 0.22s;
+  font-family:'DM Sans',sans-serif;
+  margin-bottom:2.5rem;
+}
+.btn-volver:hover { background:var(--wheat); color:var(--dark); border-color:var(--wheat); }
+
+/* ══════════════════════════════
+   INICIO — HERO + MENÚ BOTONES
+══════════════════════════════ */
+#v-inicio {
+  position:relative; overflow:hidden;
+  background:
+    radial-gradient(ellipse 65% 75% at 75% 55%, rgba(196,144,58,0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 55% at 15% 80%, rgba(139,94,60,0.1) 0%, transparent 50%),
+    linear-gradient(155deg,#FAF2E2 0%,#EFE0C0 45%,#E6D0A0 100%);
+}
+#v-inicio::before {
+  content:'';
+  position:absolute; inset:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+.inicio-inner {
+  position:relative; z-index:1;
+  max-width:1200px; margin:0 auto; padding:5rem 3rem 4rem;
+  display:grid; grid-template-columns:1.1fr 0.9fr; gap:5rem; align-items:center;
+  min-height:calc(100vh - 60px);
+}
+.inicio-left {}
+.hero-tag {
+  display:inline-block;
+  font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--gold); border:1px solid rgba(196,144,58,0.3);
+  padding:0.28rem 0.9rem; border-radius:2rem; margin-bottom:1.4rem;
+  background:rgba(196,144,58,0.07);
+}
+.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(4rem,6.5vw,6rem); font-weight:700; line-height:0.95;
+  color:var(--dark); margin-bottom:0.6rem;
+}
+.hero-sub {
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:1.15rem; color:var(--sienna); margin-bottom:1.8rem;
+}
+.hero-desc {
+  font-size:0.92rem; line-height:1.85; color:var(--muted);
+  max-width:500px; margin-bottom:2.5rem;
+}
+.hero-meta {
+  display:flex; flex-direction:column; gap:0.6rem;
+  padding:1.4rem; border-radius:14px;
+  background:rgba(255,255,255,0.45);
+  border:1px solid rgba(196,144,58,0.2);
+  max-width:460px;
+}
+.meta-row { display:flex; gap:0.5rem; font-size:0.82rem; }
+.meta-k { font-weight:600; color:var(--gold); min-width:80px; }
+.meta-v { color:var(--muted); }
+
+/* emblem */
+.inicio-right { display:flex; justify-content:center; align-items:center; }
+.emblem {
+  width:320px; height:320px;
+  background:linear-gradient(135deg,#EDD9A0 0%,#D4A96A 40%,#A06A3A 100%);
+  border-radius:50%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  box-shadow:0 28px 70px rgba(100,50,10,0.28);
+  position:relative;
+}
+.emblem::before {
+  content:''; position:absolute; inset:-10px;
+  border-radius:50%; border:1px dashed rgba(196,144,58,0.5);
+}
+.emblem::after {
+  content:''; position:absolute; inset:-22px;
+  border-radius:50%; border:1px dashed rgba(196,144,58,0.2);
+}
+.emblem-icon { font-size:5.5rem; line-height:1; }
+.emblem-title {
+  font-family:'Cormorant Garamond',serif;
+  color:#fff; font-size:1rem; font-weight:700;
+  letter-spacing:0.14em; margin-top:0.6rem;
+  text-shadow:0 2px 8px rgba(40,20,5,0.35);
+}
+.emblem-sub { font-size:0.62rem; color:rgba(255,255,255,0.7); letter-spacing:0.14em; text-transform:uppercase; margin-top:0.2rem; }
+
+/* GRID DE BOTONES NAVEGACIÓN EN INICIO */
+.nav-cards-section {
+  background:#EAD8B8;
+  padding:4rem 3rem;
+}
+.nav-cards-section h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem; color:var(--dark); margin-bottom:0.4rem;
+  text-align:center;
+}
+.nav-cards-section p {
+  text-align:center; font-size:0.88rem; color:var(--muted);
+  margin-bottom:2.5rem;
+}
+.nav-cards-grid {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem;
+}
+.nav-card {
+  background:var(--cream); border-radius:16px;
+  border:1px solid rgba(196,144,58,0.18);
+  padding:2rem 1.8rem;
+  cursor:pointer;
+  transition:all 0.28s;
+  display:flex; flex-direction:column; gap:0.8rem;
+  position:relative; overflow:hidden;
+}
+.nav-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--wheat),var(--gold));
+  transform:scaleX(0); transform-origin:left; transition:transform 0.28s;
+}
+.nav-card:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgba(100,50,10,0.13); }
+.nav-card:hover::after { transform:scaleX(1); }
+.nav-card-icon { font-size:2.2rem; }
+.nav-card-num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--gold);
+}
+.nav-card-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem; font-weight:700; color:var(--dark); line-height:1.2;
+}
+.nav-card-desc {
+  font-size:0.8rem; line-height:1.6; color:var(--muted);
+}
+.nav-card-btn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  font-size:0.72rem; font-weight:600; text-transform:uppercase;
+  letter-spacing:0.08em; color:var(--sienna); margin-top:auto;
+}
+.nav-card:hover .nav-card-btn { color:var(--gold); }
+
+/* ══════════════════════════════
+   LAYOUT INTERIOR DE VISTAS
+══════════════════════════════ */
+.page-wrap {
+  max-width:1200px; margin:0 auto; padding:3.5rem 3rem 5rem;
+}
+.page-header { margin-bottom:3rem; }
+.page-tag {
+  display:inline-block;
+  font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:0.7rem;
+}
+.page-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,4.5vw,3.8rem); font-weight:700;
+  color:var(--dark); line-height:1.0; margin-bottom:0.8rem;
+}
+.page-divider {
+  width:70px; height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  margin-bottom:1rem;
+}
+.page-intro {
+  font-size:0.95rem; line-height:1.8; color:var(--muted); max-width:580px;
+}
+
+/* ══════════════════════════════
+   EQUIPO (Modificado con Emojis)
+══════════════════════════════ */
+#v-equipo { background:#EFE4CC; }
+.team-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem;
+}
+.team-card {
+  background:var(--cream); border-radius:16px;
+  border:1px solid rgba(196,144,58,0.15);
+  padding:2rem 1.5rem; text-align:center;
+  transition:transform 0.28s, box-shadow 0.28s;
+  position:relative; overflow:hidden;
+}
+.team-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--wheat),var(--gold));
+  transform:scaleX(0); transform-origin:left; transition:transform 0.28s;
+}
+.team-card:hover { transform:translateY(-4px); box-shadow:0 14px 36px rgba(100,50,10,0.12); }
+.team-card:hover::before { transform:scaleX(1); }
+.team-ava {
+  width:76px; height:76px; border-radius:50%;
+  background:linear-gradient(135deg,var(--sand),var(--wheat));
+  margin:0 auto 1rem;
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.5rem; border:3px solid rgba(196,144,58,0.25);
+}
+.team-name { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:700; color:var(--dark); margin-bottom:0.3rem; }
+.team-career { font-size:0.72rem; color:var(--gold); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.7rem; }
+.team-desc { font-size:0.82rem; line-height:1.65; color:var(--muted); margin-bottom:0.9rem; }
+.team-link { font-size:0.72rem; color:var(--sienna); text-decoration:none; border-bottom:1px solid rgba(139,94,60,0.3); padding-bottom:1px; }
+.team-link:hover { color:var(--gold); }
+
+/* ══════════════════════════════
+   MANIFIESTO
+══════════════════════════════ */
+#v-manifiesto { background:var(--cream); }
+.manif-grid { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; margin-bottom:3.5rem; }
+.quote-box {
+  background:linear-gradient(140deg,#F2E8D0,#E6D5B0);
+  border:1px solid rgba(196,144,58,0.22); border-radius:16px;
+  padding:2.2rem; position:relative; overflow:hidden;
+}
+.quote-box::before {
+  content:'"'; font-family:'Cormorant Garamond',serif;
+  font-size:11rem; line-height:0; color:rgba(196,144,58,0.1);
+  position:absolute; top:3rem; left:0.5rem;
+}
+.qb-label { font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:0.8rem; }
+.qb-quote { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.3rem; line-height:1.6; color:var(--dark); margin-bottom:1rem; position:relative; z-index:1; }
+.qb-desc { font-size:0.87rem; line-height:1.75; color:var(--muted); }
+.prop-box {
+  background:#fff; border-radius:16px;
+  border:1px solid rgba(196,144,58,0.15);
+  padding:2.2rem; box-shadow:0 4px 24px rgba(100,50,10,0.06);
+}
+.prop-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.55rem; color:var(--dark); margin-bottom:1rem; }
+.prop-box p { font-size:0.88rem; line-height:1.8; color:var(--muted); margin-bottom:0.9rem; }
+.valores-wrap { }
+.valores-wrap h3 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--dark); margin-bottom:0.4rem; }
+.val-sub { font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:1.8rem; }
+.valores-layout { display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start; }
+.valores-list { display:flex; flex-direction:column; gap:0.9rem; }
+.valor-item {
+  display:flex; gap:1rem; align-items:center;
+  background:rgba(245,237,218,0.7); border-radius:12px; padding:1rem 1.4rem;
+  border-left:4px solid var(--wheat);
+}
+.valor-item:nth-child(1) { border-color:var(--sienna); }
+.valor-item:nth-child(2) { border-color:var(--wheat); }
+.valor-item:nth-child(3) { border-color:var(--tan); }
+.valor-item:nth-child(4) { border-color:#C4A070; }
+.valor-n { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:700; color:rgba(196,144,58,0.25); line-height:1; }
+.valor-n+div h4 { font-size:0.92rem; font-weight:600; color:var(--dark); }
+.valor-n+div span { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); }
+.pyramid { display:flex; flex-direction:column; gap:0.5rem; align-items:center; }
+.pyr-row {
+  border-radius:8px; display:flex; align-items:center; justify-content:center; gap:0.5rem;
+  font-size:0.8rem; font-weight:500; padding:0.65rem 1rem; color:white;
+  transition:transform 0.2s;
+}
+.pyr-row:hover { transform:scaleX(1.02); }
+.pyr-row:nth-child(1){ width:32%; background:var(--sienna); }
+.pyr-row:nth-child(2){ width:52%; background:var(--tan); }
+.pyr-row:nth-child(3){ width:72%; background:var(--wheat); color:var(--dark); }
+.pyr-row:nth-child(4){ width:92%; background:var(--sand); color:var(--dark); }
+
+/* ══════════════════════════════
+   MAPA CRÍTICO
+══════════════════════════════ */
+#v-mapa { background:#EFE4CC; }
+.mapa-grid { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; }
+.vuln-list { display:flex; flex-direction:column; gap:1.1rem; }
+.vuln-item {
+  background:var(--cream); border-radius:14px; padding:1.4rem 1.5rem;
+  display:flex; gap:1.1rem; align-items:flex-start;
+  border:1px solid rgba(196,144,58,0.15);
+  transition:transform 0.22s;
+}
+.vuln-item:hover { transform:translateX(5px); }
+.vuln-ico {
+  width:46px; height:46px; flex-shrink:0; border-radius:12px;
+  background:linear-gradient(135deg,var(--sand),var(--wheat));
+  display:flex; align-items:center; justify-content:center; font-size:1.45rem;
+}
+.vuln-item h4 { font-size:0.93rem; font-weight:600; color:var(--dark); margin-bottom:0.3rem; }
+.vuln-item p { font-size:0.82rem; line-height:1.65; color:var(--muted); }
+.commit-box {
+  background:linear-gradient(135deg,var(--brown),var(--sienna));
+  border-radius:14px; padding:1.5rem; margin-top:1.1rem; color:white;
+}
+.commit-box h4 { font-family:'Cormorant Garamond',serif; font-size:1.1rem; margin-bottom:0.5rem; }
+.commit-box p { font-size:0.84rem; line-height:1.7; opacity:0.9; }
+.fallas-box {
+  background:var(--cream); border-radius:14px; padding:1.8rem;
+  border:1px solid rgba(196,144,58,0.2);
+}
+.fallas-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.45rem; color:var(--dark); margin-bottom:0.8rem; }
+.fallas-box > p { font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.2rem; }
+.fgroup { margin-bottom:1.2rem; }
+.fgroup h4 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--terracotta); font-weight:700; margin-bottom:0.6rem; }
+.fgroup.pos h4 { color:#6B8A4E; }
+.fgroup ul { list-style:none; display:flex; flex-direction:column; gap:0.4rem; }
+.fgroup ul li { font-size:0.84rem; color:var(--muted); line-height:1.5; padding-left:1.2rem; position:relative; }
+.fgroup ul li::before { content:'–'; position:absolute; left:0; color:var(--gold); }
+.fgroup.pos ul li::before { content:'✓'; color:#6B8A4E; }
+.fgroup p { font-size:0.8rem; color:var(--muted); line-height:1.6; margin-top:0.7rem; }
+
+/* ══════════════════════════════
+   PODCASTS
+══════════════════════════════ */
+#v-podcasts { background:var(--cream); }
+.pod-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
+.pod-card {
+  background:linear-gradient(155deg,#F5EDDA,#EAD8B8);
+  border:1px solid rgba(196,144,58,0.2); border-radius:16px;
+  padding:1.9rem; transition:all 0.28s;
+}
+.pod-card:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(100,50,10,0.12); }
+.pod-ep { font-size:0.63rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem; }
+.pod-title { font-family:'Cormorant Garamond',serif; font-size:1.28rem; font-weight:700; color:var(--dark); margin-bottom:0.6rem; line-height:1.25; }
+.pod-desc { font-size:0.82rem; line-height:1.65; color:var(--muted); margin-bottom:1.2rem; }
+.pod-wave { display:flex; gap:3px; align-items:flex-end; height:28px; }
+.wave-b {
+  width:4px; border-radius:2px;
+  background:linear-gradient(to top,var(--tan),var(--wheat));
+  animation:wv 1.4s ease-in-out infinite;
+}
+.wave-b:nth-child(2){animation-delay:0.1s}
+.wave-b:nth-child(3){animation-delay:0.2s}
+.wave-b:nth-child(4){animation-delay:0.3s}
+.wave-b:nth-child(5){animation-delay:0.4s}
+.wave-b:nth-child(6){animation-delay:0.15s}
+.wave-b:nth-child(7){animation-delay:0.25s}
+@keyframes wv { 0%,100%{height:7px} 50%{height:24px} }
+
+/* ══════════════════════════════
+   VIDEO
+══════════════════════════════ */
+#v-video { background:#EFE4CC; }
+.video-layout { display:grid; grid-template-columns:1.2fr 0.8fr; gap:3rem; align-items:start; }
+.video-frame {
+  background:#1a0e05; border-radius:16px; overflow:hidden;
+  aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;
+  position:relative; box-shadow:0 20px 50px rgba(40,20,5,0.25);
+}
+.video-placeholder {
+  display:flex; flex-direction:column; align-items:center; gap:1rem;
+  color:rgba(255,255,255,0.6);
+}
+.play-btn {
+  width:64px; height:64px; border-radius:50%;
+  background:rgba(196,144,58,0.8);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem; cursor:pointer;
+  transition:background 0.2s, transform 0.2s;
+}
+.play-btn:hover { background:var(--gold); transform:scale(1.1); }
+.video-placeholder p { font-size:0.85rem; }
+.video-info h3 { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--dark); margin-bottom:0.8rem; }
+.video-info p { font-size:0.87rem; line-height:1.8; color:var(--muted); margin-bottom:1rem; }
+.video-tags { display:flex; flex-wrap:wrap; gap:0.5rem; }
+.vtag {
+  font-size:0.7rem; padding:0.25rem 0.75rem; border-radius:2rem;
+  background:rgba(196,144,58,0.1); color:var(--gold);
+  border:1px solid rgba(196,144,58,0.2);
+}
+
+/* ══════════════════════════════
+   INFOGRAFÍA
+══════════════════════════════ */
+#v-infografia { background:var(--cream); }
+.info-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+.info-card {
+  background:white; border-radius:16px; padding:2rem;
+  border:1px solid rgba(196,144,58,0.15);
+  transition:box-shadow 0.28s;
+}
+.info-card:hover { box-shadow:0 8px 30px rgba(100,50,10,0.1); }
+.info-card.feat {
+  grid-column:span 2;
+  background:linear-gradient(135deg,var(--brown),var(--sienna));
+  color:white;
+}
+.info-num {
+  font-family:'Cormorant Garamond',serif; font-size:4rem; font-weight:700;
+  color:rgba(196,144,58,0.28); line-height:1; margin-bottom:0.3rem;
+}
+.info-card.feat .info-num { color:rgba(255,255,255,0.18); }
+.info-card-title { font-family:'Cormorant Garamond',serif; font-size:1.38rem; color:var(--dark); margin-bottom:0.6rem; }
+.info-card.feat .info-card-title { color:white; }
+.info-card-text { font-size:0.87rem; line-height:1.75; color:var(--muted); }
+.info-card.feat .info-card-text { color:rgba(255,255,255,0.8); }
+.itags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.9rem; }
+.itag {
+  font-size:0.68rem; padding:0.22rem 0.7rem; border-radius:2rem;
+  background:rgba(196,144,58,0.1); color:var(--gold);
+  border:1px solid rgba(196,144,58,0.2);
+}
+.info-card.feat .itag { background:rgba(255,255,255,0.12); color:white; border-color:rgba(255,255,255,0.2); }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:900px){
+  .inicio-inner{ grid-template-columns:1fr; padding:3rem 1.5rem; }
+  .inicio-right{ display:none; }
+  .nav-cards-grid{ grid-template-columns:1fr 1fr; }
+  .team-grid{ grid-template-columns:1fr 1fr; }
+  .manif-grid,.mapa-grid,.video-layout,.valores-layout{ grid-template-columns:1fr; }
+  .pod-grid{ grid-template-columns:1fr; }
+  .info-grid{ grid-template-columns:1fr; }
+  .info-card.feat{ grid-column:span 1; }
+  #topbar{ padding:0 1rem; }
+  .tb-nav button{ padding:0.3rem 0.5rem; font-size:0.65rem; }
+  .page-wrap{ padding:2rem 1.5rem 4rem; }
+}
+
+/* hero illustration */
+.hero-illustration {
+  width:100%; max-width:440px;
+  object-fit:contain;
+  filter:drop-shadow(0 20px 40px rgba(100,60,10,0.18));
+  border-radius:0;
+}
+
+/* PODCAST layout */
+.pod-layout {
+  display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:start;
+}
+.pod-player-card {
+  background:#1e3a5f; border-radius:14px; padding:1.5rem;
+  display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.2rem;
+}
+.pod-mic-icon {
+  width:48px; height:48px; border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; flex-shrink:0;
+}
+.pod-ep-label {
+  font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--wheat); margin-bottom:0.4rem;
+}
+.pod-player-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem; color:white; line-height:1.4;
+}
+.pod-cover-wrap {
+  border-radius:14px; overflow:hidden; margin-bottom:1.2rem;
+  box-shadow:0 8px 28px rgba(40,20,5,0.2);
+}
+.pod-cover-img {
+  width:100%; display:block; object-fit:cover;
+}
+.pod-audio-box {
+  background:rgba(245,237,218,0.6); border:1px solid rgba(196,144,58,0.25);
+  border-radius:12px; padding:1.2rem; margin-bottom:1rem; text-align:center;
+}
+.pod-audio-label {
+  font-size:0.78rem; font-weight:600; color:var(--sienna);
+  margin-bottom:0.7rem; letter-spacing:0.05em;
+}
+.pod-audio-player {
+  width:100%; height:42px; border-radius:8px;
+}
+.pod-tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
+.ptag {
+  font-size:0.68rem; padding:0.22rem 0.75rem; border-radius:2rem;
+  background:rgba(196,144,58,0.1); color:var(--sienna);
+  border:1px solid rgba(196,144,58,0.25);
+}
+.pod-dilema-box {
+  border-left:4px solid var(--gold); padding-left:1.2rem; margin-bottom:2rem;
+}
+.pod-dilema-label {
+  font-size:0.63rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:0.6rem;
+}
+.pod-dilema-quote {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.1rem; line-height:1.7; color:var(--dark);
+}
+.pod-dilema-quote strong { font-style:normal; color:var(--sienna); font-size:0.95rem; }
+.pod-contraste-label {
+  font-size:0.63rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:0.8rem;
+}
+.pod-contraste-grid { display:flex; flex-direction:column; gap:1rem; }
+.pod-teoria-card {
+  background:white; border-radius:12px; padding:1.3rem;
+  border:1px solid rgba(196,144,58,0.15);
+  box-shadow:0 2px 12px rgba(100,50,10,0.06);
+}
+.pod-teoria-card h4 {
+  font-size:0.88rem; font-weight:600; color:var(--dark); margin-bottom:0.5rem;
+}
+.pod-teoria-card p {
+  font-size:0.82rem; line-height:1.7; color:var(--muted);
+}
+@media(max-width:900px){
+  .pod-layout { grid-template-columns:1fr; }
+  .hero-illustration { max-width:280px; }
+}
+
+/* real video player */
+.real-video {
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:16px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════════════ BARRA SUPERIOR ════════════ -->
+<div id="topbar">
+  <div class="tb-logo" onclick="goTo('inicio')">Virtud en Acción</div>
+  <div class="tb-nav">
+    <button onclick="goTo('inicio')" id="btn-inicio" class="active">Inicio</button>
+    <button onclick="goTo('equipo')" id="btn-equipo">Equipo</button>
+    <button onclick="goTo('manifiesto')" id="btn-manifiesto">Manifiesto</button>
+    <button onclick="goTo('mapa')" id="btn-mapa">Mapa Crítico</button>
+    <button onclick="goTo('podcasts')" id="btn-podcasts">Podcasts</button>
+    <button onclick="goTo('video')" id="btn-video">Video</button>
+    <button onclick="goTo('infografia')" id="btn-infografia">Infografía</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VISTA: INICIO
+════════════════════════════════════════ -->
+<div id="v-inicio" class="view active">
+  <!-- HERO -->
+  <div class="inicio-inner">
+    <div class="inicio-left">
+      <span class="hero-tag">Ética y Deontología Profesional · 2026-I</span>
+      <h1 class="hero-title">Virtud<br>en Acción</h1>
+      <p class="hero-sub">Ética sin atajos: decisiones que construyen sociedad</p>
+      <p class="hero-desc">Este portafolio documenta nuestro recorrido ético a lo largo del semestre: desde la construcción de nuestra identidad profesional hasta el recognition de las poblaciones vulnerables, los valores que guían nuestras decisiones y el análisis crítico de nuestro campo profesional.</p>
+      <div class="hero-meta">
+        <div class="meta-row"><span class="meta-k">Curso</span><span class="meta-v">Ética y Deontología Profesional</span></div>
+        <div class="meta-row"><span class="meta-k">Carreras</span><span class="meta-v">Diseño Gráfico · Nutrición · Ing. Económica · Ing. Empresarial</span></div>
+        <div class="meta-row"><span class="meta-k">Semestre</span><span class="meta-v">2026-I</span></div>
+        <div class="meta-row"><span class="meta-k">Docente</span><span class="meta-v">Luis Guillermo Mendoza Velarde</span></div>
+      </div>
+    </div>
+    <div class="inicio-right">
+      <div class="emblem">
+        <span class="emblem-icon">🏛️</span>
+        <div class="emblem-title">GRUPO 4</div>
+        <div class="emblem-sub">Portafolio Ético</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN DE TARJETAS DE NAVEGACIÓN -->
+  <div class="nav-cards-section">
+    <h2>Explorar el Portafolio</h2>
+    <p>Selecciona una de las secciones para revisar nuestro trabajo teórico y práctico</p>
+    <div class="nav-cards-grid">
+      <div class="nav-card" onclick="goTo('equipo')">
+        <div class="nav-card-icon">👥</div>
+        <div class="nav-card-num">Parte 01</div>
+        <div class="nav-card-title">Nuestro Equipo</div>
+        <div class="nav-card-desc">Conoce a los integrantes del grupo, sus carreras y visiones profesionales.</div>
+        <div class="nav-card-btn">Ver Sección →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('manifiesto')">
+        <div class="nav-card-icon">📜</div>
+        <div class="nav-card-num">Parte 02</div>
+        <div class="nav-card-title">Manifiesto Profesional</div>
+        <div class="nav-card-desc">La declaración de principios y la pirámide de valores que guía nuestro actuar.</div>
+        <div class="nav-card-btn">Ver Sección →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('mapa')">
+        <div class="nav-card-icon">🗺️</div>
+        <div class="nav-card-num">Parte 03</div>
+        <div class="nav-card-title">Mapa Crítico</div>
+        <div class="nav-card-desc">Análisis de vulnerabilidades, compromisos y dilemas de nuestra realidad nacional.</div>
+        <div class="nav-card-btn">Ver Sección →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('podcasts')">
+        <div class="nav-card-icon">🎙️</div>
+        <div class="nav-card-num">Parte 04</div>
+        <div class="nav-card-title">Podcasts Éticos</div>
+        <div class="nav-card-desc">Audios donde discutimos dilemas morales cotidianos y su contraste teórico.</div>
+        <div class="nav-card-btn">Ver Sección →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('video')">
+        <div class="nav-card-icon">🎥</div>
+        <div class="nav-card-num">Parte 05</div>
+        <div class="nav-card-title">Video Expositivo</div>
+        <div class="nav-card-desc">Producción audiovisual que sintetiza los aprendizajes clave del curso.</div>
+        <div class="nav-card-btn">Ver Sección →</div>
+      </div>
+      <div class="nav-card" onclick="goTo('infografia')">
+        <div class="nav-card-icon">📊</div>
+        <div class="nav-card-num">Parte 06</div>
+        <div class="nav-card-title">Infografía Final</div>
+        <div class="nav-card-desc">Recurso gráfico interactivo con datos e hitos de nuestro desarrollo.</div>
+        <div class="nav-card-btn">Ver Sección →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VISTA: EQUIPO
+════════════════════════════════════════ -->
+<div id="v-equipo" class="view">
+  <div class="page-wrap">
+    <button class="btn-volver" onclick="goTo('inicio')">← Volver al Inicio</button>
+    <div class="page-header">
+      <span class="page-tag">Integrantes</span>
+      <h2 class="page-title">Nuestro Equipo</h2>
+      <div class="page-divider"></div>
+      <p class="page-intro">Un equipo multidisciplinario enfocado en aplicar la excelencia deontológica en cada una de nuestras especialidades.</p>
+    </div>
+
+    <div class="team-grid">
+      <!-- Integrante 1 (Mujer) -->
+      <div class="team-card">
+        <div class="team-ava">👩</div>
+        <h3 class="team-name">Ana Gómez</h3>
+        <div class="team-career">Diseño Gráfico</div>
+        <p class="team-desc">Apasionada por la comunicación visual ética y la creación de identidades con propósito social.</p>
+        <a href="#" class="team-link">Ver Perfil</a>
+      </div>
+
+      <!-- Integrante 2 (Hombre) -->
+      <div class="team-card">
+        <div class="team-ava">👨</div>
+        <h3 class="team-name">Carlos Mendoza</h3>
+        <div class="team-career">Ing. Empresarial</div>
+        <p class="team-desc">Enfocado en la optimización de procesos organizacionales bajo marcos de responsabilidad social.</p>
+        <a href="#" class="team-link">Ver Perfil</a>
+      </div>
+
+      <!-- Integrante 3 (Mujer) -->
+      <div class="team-card">
+        <div class="team-ava">👩</div>
+        <h3 class="team-name">Elena Rivas</h3>
+        <div class="team-career">Nutrición</div>
+        <p class="team-desc">Comprometida con la salud pública y el desarrollo de programas alimentarios éticos y sostenibles.</p>
+        <a href="#" class="team-link">Ver Perfil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VISTA: MANIFIESTO
+════════════════════════════════════════ -->
+<div id="v-manifiesto" class="view">
+  <div class="page-wrap">
+    <button class="btn-volver" onclick="goTo('inicio')">← Volver al Inicio</button>
+    <div class="page-header">
+      <span class="page-tag">Declaración</span>
+      <h2 class="page-title">Manifiesto de Principios</h2>
+      <div class="page-divider"></div>
+      <p class="page-intro">Nuestra postura formal ante los desafíos morales de la práctica profesional contemporánea.</p>
+    </div>
+
+    <div class="manif-grid">
+      <div class="quote-box">
+        <span class="qb-label">Nuestra Misión</span>
+        <p class="qb-quote">"Ejercer nuestras profesiones no solo como un medio de sustento técnico, sino como un compromiso civil inquebrantable."</p>
+        <p class="qb-desc">Entendemos que cada diseño, diagnóstico, balance o estrategia de negocio impacta directamente en el tejido social. La técnica sin ética es ciega.</p>
+      </div>
+
+      <div class="prop-box">
+        <h3>Propósito Colectivo</h3>
+        <p>Buscamos desmitificar la idea de que el éxito profesional se mide exclusivamente en términos económicos. Para el Grupo 4, el verdadero éxito radica en la confianza pública ganada a través de la transparencia y la consistencia moral.</p>
+        <p>Nos oponemos activamente a las prácticas corruptas institucionalizadas, el plagio intelectual y la explotación de recursos sin medir impactos colaterales.</p>
+      </div>
+    </div>
+
+    <div class="valores-wrap">
+      <h3>Jerarquía de Valores</h3>
+      <span class="val-sub">Pirámide Deontológica de Grupo</span>
+      <div class="valores-layout">
+        <div class="valores-list">
+          <div class="valor-item">
+            <span class="valor-n">01</span>
+            <div>
+              <h4>Integridad Absoluta</h4>
+              <span>Nivel Esencial</span>
+            </div>
+          </div>
+          <div class="valor-item">
+            <span class="valor-n">02</span>
+            <div>
+              <h4>Responsabilidad Social</h4>
+              <span>Nivel de Impacto</span>
+            </div>
+          </div>
+          <div class="valor-item">
+            <span class="valor-n">03</span>
+            <div>
+              <h4>Transparencia Técnica</h4>
+              <span>Nivel Operativo</span>
+            </div>
+          </div>
+          <div class="valor-item">
+            <span class="valor-n">04</span>
+            <div>
+              <h4>Justicia Distributiva</h4>
+              <span>Nivel Estratégico</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pyramid">
+          <div class="pyr-row">Integridad</div>
+          <div class="pyr-row">Responsabilidad</div>
+          <div class="pyr-row">Transparencia</div>
+          <div class="pyr-row">Justicia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VISTA: MAPA CRÍTICO
+════════════════════════════════════════ -->
+<div id="v-mapa" class="view">
+  <div class="page-wrap">
+    <button class="btn-volver" onclick="goTo('inicio')">← Volver al Inicio</button>
+    <div class="page-header">
+      <span class="page-tag">Análisis</span>
+      <h2 class="page-title">Mapa Crítico de la Realidad</h2>
+      <div class="page-divider"></div>
+      <p class="page-intro">Evaluación detallada de las poblaciones vulnerables y las fallas estructurales dentro de nuestros entornos de desarrollo laboral.</p>
+    </div>
+
+    <div class="mapa-grid">
+      <div class="vuln-list">
+        <h3>Poblaciones Vulnerables Identificadas</h3>
+        <div class="vuln-item">
+          <div class="vuln-ico">🧑‍🌾</div>
+          <div>
+            <h4>Comunidades Rurales Aisladas</h4>
+            <p>Sufren la brecha digital y la falta de acceso a infraestructuras económicas formales, quedando vulnerables a monopolios informales.</p>
+          </div>
+        </div>
+        <div class="vuln-item">
+          <div class="vuln-ico">👶</div>
+          <div>
+            <h4>Infancia en Zonas de Pobreza Extrema</h4>
+            <p>Directamente afectada por deficiencias de diseño en programas nutricionales estatales y falta de fiscalización técnica.</p>
+          </div>
+        </div>
+        <div class="commit-box">
+          <h4>Nuestro Compromiso Directo</h4>
+          <p>No diseñar, asesorar ni promover ningún proyecto comercial que instrumentalice o vulnere los derechos fundamentales de los grupos arriba mencionados.</p>
+        </div>
+      </div>
+
+      <div class="fallas-box">
+        <h3>Fallas Deontológicas del Sector</h3>
+        <p>A través de la investigación grupal detectamos dos grandes ejes de comportamiento poco ético en la actualidad corporativa:</p>
+        <div class="fgroup">
+          <h4>Prácticas Negativas Frecuentes</h4>
+          <ul>
+            <li>El "Greenwashing" o lavado de imagen ecológico mediante diseño publicitario engañoso.</li>
+            <li>Especulación de precios en insumos básicos de salud y nutrición.</li>
+            <li>Uso de algoritmos sesgados para exclusión financiera en microempresas.</li>
+          </ul>
+        </div>
+        <div class="fgroup pos">
+          <h4>Respuestas Proactivas Propuestas</h4>
+          <ul>
+            <li>Auditorías visuales y de datos abiertas a la comunidad.</li>
+            <li>Códigos éticos de autoregulación con sanciones reales.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VISTA: PODCASTS
+════════════════════════════════════════ -->
+<div id="v-podcasts" class="view">
+  <div class="page-wrap">
+    <button class="btn-volver" onclick="goTo('inicio')">← Volver al Inicio</button>
+    <div class="page-header">
+      <span class="page-tag">Audio</span>
+      <h2 class="page-title">Podcasts Éticos</h2>
+      <div class="page-divider"></div>
+      <p class="page-intro">Episodios producidos en su totalidad por el equipo donde debatimos casos de estudio y dilemas reales.</p>
+    </div>
+
+    <div class="pod-layout">
+      <div>
+        <div class="pod-cover-wrap">
+          <div class="pod-player-card">
+            <div class="pod-mic-icon">🎙️</div>
+            <div>
+              <span class="pod-ep-label">Episodio Destacado</span>
+              <h4 class="pod-player-title">Dilemas en la Frontera Profesional: Intereses vs. Deber Civíco</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="pod-audio-box">
+          <div class="pod-audio-label">Reproductor de Audio Corporativo</div>
+          <audio controls class="pod-audio-player">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Tu navegador no soporta la reproducción de audio.
+          </audio>
+        </div>
+
+        <div class="pod-tags">
+          <span class="ptag">#Deontología</span>
+          <span class="ptag">#CasosReales</span>
+          <span class="ptag">#DebateGrupo4</span>
+          <span class="ptag">#ÉticaAplicada</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="pod-dilema-box">
+          <span class="pod-dilema-label">El Caso de Estudio Analizado</span>
+          <p class="pod-dilema-quote">"¿Debe un ingeniero reportar fallas menores no contempladas en el contrato si esto retrasa una obra pública vital?" <strong>Análisis grupal incluido en el audio.</strong></p>
+        </div>
+
+        <div class="pod-contraste-label">Contraste Teórico del Episodio</div>
+        <div class="pod-contraste-grid">
+          <div class="pod-teoria-card">
+            <h4>Perspectiva Utilitarista (Bentham/Mill)</h4>
+            <p>Se evalúa el retraso de la obra frente al beneficio a largo plazo de la seguridad total de la población civil afectada.</p>
+          </div>
+          <div class="pod-teoria-card">
+            <h4>Perspectiva Deontológica Kantiana</h4>
+            <p>El imperativo categórico de no mentir ni ocultar información prevalece sobre cualquier consecuencia logística o financiera.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VISTA: VIDEO
+════════════════════════════════════════ -->
+<div id="v-video" class="view">
+  <div class="page-wrap">
+    <button class="btn-volver" onclick="goTo('inicio')">← Volver al Inicio</button>
+    <div class="page-header">
+      <span class="page-tag">Multimedia</span>
+      <h2 class="page-title">Video Expositivo Final</h2>
+      <div class="page-divider"></div>
+      <p class="page-intro">Nuestra sustentación audiovisual sobre la correlación entre la responsabilidad profesional y el desarrollo humano.</p>
+    </div>
+
+    <div class="video-layout">
+      <div class="video-frame">
+        <!-- Reemplazado por un reproductor nativo con video demo público para evitar marcos vacíos -->
+        <video controls class="real-video" poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200">
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-corporate-business-handshake-multiethnic-42232-large.mp4" type="video/mp4">
+          Tu navegador no soporta videos.
+        </video>
+      </div>
+
+      <div class="video-info">
+        <h3>Ejes de la Disertación</h3>
+        <p>En este video de 15 minutos, detallamos las conclusiones del semestre, haciendo especial énfasis en el Rol de las universidades en la formación del criterio moral.</p>
+        <p>Planteamos que la ética no debe ser una materia aislada, sino un eje transversal en toda malla curricular técnica.</p>
+        <div class="video-tags">
+          <span class="vtag">Sustentación</span>
+          <span class="vtag">Ponencia Grupal</span>
+          <span class="vtag">Conclusiones 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VISTA: INFOGRAFÍA
+════════════════════════════════════════ -->
+<div id="v-infografia" class="view">
+  <div class="page-wrap">
+    <button class="btn-volver" onclick="goTo('inicio')">← Volver al Inicio</button>
+    <div class="page-header">
+      <span class="page-tag">Dashboard</span>
+      <h2 class="page-title">Infografía Síntesis</h2>
+      <div class="page-divider"></div>
+      <p class="page-intro">Estructura analítica modular con las métricas y los conceptos clave recopilados.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card feat">
+        <div class="info-num">87%</div>
+        <h3 class="info-card-title">Índice de Conciencia Sectorial</h3>
+        <p class="info-card-text">Porcentaje de profesionales encuestados en nuestro entorno que admiten haber presenciado o experimentado presiones para saltar normativas éticas en favor de plazos de entrega rápidos.</p>
+        <div class="itags">
+          <span class="itag">Dato Crítico</span>
+          <span class="itag">Muestra: 150 egresados</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-num">03</div>
+        <h3 class="info-card-title">Casos de Éxito Analizados</h3>
+        <p class="info-card-text">Estudios de empresas locales que lograron rentabilidad implementando políticas estrictas de transparencia salarial y auditoría comunitaria externa.</p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-num">05</div>
+        <h3 class="info-card-title">Hitos del Portafolio</h3>
+        <p class="info-card-text">Desde el diagnóstico inicial hasta el desarrollo conceptual del manifiesto y la validación a través de debates en formato podcast.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     LÓGICA JAVASCRIPT (Control de Vistas)
+════════════════════════════════════════ -->
+<script>
+function goTo(viewId) {
+  // 1. Ocultar todas las vistas
+  const views = document.querySelectorAll('.view');
+  views.forEach(v => v.classList.remove('active'));
+
+  // 2. Desactivar todos los botones de la barra de navegación
+  const buttons = document.querySelectorAll('.tb-nav button');
+  buttons.forEach(b => b.classList.remove('active'));
+
+  // 3. Mostrar la vista seleccionada
+  const targetView = document.getElementById('v-' + viewId);
+  if(targetView) {
+    targetView.classList.add('active');
+  }
+
+  // 4. Activar el botón correspondiente
+  const targetButton = document.getElementById('btn-' + viewId);
+  if(targetButton) {
+    targetButton.classList.add('active');
+  }
+
+  // 5. Scroll suave al inicio de la página al cambiar de pestaña
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
